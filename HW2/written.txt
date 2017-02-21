@@ -1,0 +1,259 @@
+/*
+* Name: Shikhar Bakhda
+* UNI: ssb2189
+* Written.txt
+* This file contains the answers to the written questions
+*
+* */
+
+Written Problem 1
+
+    // importing the necessary classes and interfaces
+    import java.util.*;
+
+
+    public class Main{
+
+        // the printLots method takes 2 integer collections as parameters
+        public static void printLots(Collection<Integer> L,
+                                     Collection<Integer> P) {
+
+            // Instantiating the iterator of P and L
+            Iterator<Integer> itrP = P.iterator();
+            Iterator<Integer> itrL = L.iterator();
+
+            // Instantiating the first item of P
+            Integer itemP = itrP.next();
+
+            // iterating through every element in L
+            for(int index = 0; itrL.hasNext(); index++){
+
+                // Defining the next element in collection L
+                Integer itemL = itrL.next();
+
+                // comparing P's element to L's index, printing if matched
+                if(index == itemP){
+                    System.out.println(itemL);
+
+                    // checking if P has a next element
+                    if(itrP.hasNext()){
+                        itemP = itrP.next();
+                    }
+                    else {
+                        break;
+                    }
+                }
+            }
+        }
+
+
+        // the main method tests the printLots method
+        public static void main(String[] args) {
+
+            // Instantiating the collection L
+            ArrayList<Integer> L = new ArrayList<>();
+            Collections.addAll(L,10,9,8,7,6);
+
+            // Instantiating the collection P
+            ArrayList<Integer> P = new ArrayList<>();
+            Collections.addAll(P,1,2,4);
+
+            // Testing the printLots method
+            printLots(L,P);
+        }
+    }
+
+
+
+
+Written Problem 2
+
+    //Intersection of lists L1 and L2
+
+    public static List intersection(List L1, List L2) {
+
+        // the list containing the intersection of L1 and L2
+        List L3 = new List();
+
+        // index variables of L1 and L2
+        int i1 = 0, i2 = 0;
+
+        // iterating till indices are within the lists
+        while(i1 < L1.size() && i2 < L2.size()) {
+
+            // incrementing i1 if the current element of L2 is greater
+            if(L1.get(i1).compareTo(L2.get(i2)) < 0) {
+                i1++;
+            }
+
+            // incrementing i2 if the current element of L1 is greater
+            else if(L1.get(i1).compareTo(L2.get(i2)) > 0) {
+                i2++;
+            }
+            // if the current elements of L1 and L2 are equal, increment both
+                // indices and add the common element to L3
+            else {
+                L3.add(L1.get(i1));
+                i1++;
+                i2 = i1; //equalising i1 and i2
+            }
+        }
+
+        // returning the list containing the intersection
+        return L3;
+    }
+
+
+
+
+Written Problem 3
+
+I have implemented the two stacks by creating one stack from the front of
+the array and one from the back. Every time the front stack is pushed, its
+index increments. Every time the back stack is pushed, its index decrements.
+
+    public class Array2Stack {
+
+        // Saving the free indices
+        public int[] freeIndex = new int[2];
+        public int size; // size of array
+        public int[] arr; // the actual array
+
+        // instantiating the size, array, and the front and back free index
+        public Array2Stack(int s) {
+            size = s;
+            arr = new int[size];
+            freeIndex[0] = 0;
+            freeIndex[1] = size - 1;
+        }
+
+        // push method for the stack whichStack
+        public void push(int whichStack, int data) throws Exception{
+            // checking if array is overflowing
+            if(freeIndex[0] <= freeIndex[1]) {
+                // pushing the data to the stack whichStack
+                arr[freeIndex[whichStack]] = data;
+                // incrementing index if it's the front stack
+                if (whichStack == 0) {
+                    freeIndex[0]++;
+                }
+                // decrementing index if it's the back stack
+                else if (whichStack == 1) {
+                    freeIndex[1]--;
+                }
+                // invalid stack
+                else {
+                    System.out.println("Invalid Stack number");
+                }
+            }
+            // error thrown if the front index is greater than the back index
+            else{
+                throw new Exception("ArrayOverflowError\n");
+            }
+        }
+
+        // pop method
+        public void pop(int whichStack) {
+            // making sure the stack has at least one element
+            if(freeIndex[0] != 0 && freeIndex[1] != size - 1){
+                // decrementing index if it's the front stack
+                if(whichStack == 0){
+                    freeIndex[0]--;
+                }
+                // incrementing index if it's the back stack
+                else if(whichStack == 1){
+                    freeIndex[1]++;
+                }
+            }
+        }
+
+        // peek method
+        public
+
+        // printing the stacks
+        public void printStack(int whichStack) {
+            // printing the front stack
+            if(whichStack == 0){
+                System.out.println("Stack 1:");
+                for(int i = freeIndex[0] - 1; i >= 0; i--){
+                    System.out.println(arr[i]);
+                }
+            }
+            // printing the back stack
+            else if(whichStack == 1) {
+                System.out.println("Stack 2:");
+                for(int i = freeIndex[1] + 1; i < size; i++){
+                    System.out.println(arr[i]);
+                }
+            }
+        }
+    }
+
+Here is a tester of the above class:
+
+    public class Tester {
+
+        public static void main(String[] args) throws Exception {
+            Array2Stack stack = new Array2Stack(5);
+            try{
+                System.out.println("Testing Pushes");
+                stack.push(0, 1);
+                stack.push(0, 2);
+                stack.push(1, 3);
+                stack.push(1, 4);
+                stack.push(1, 5);
+                stack.printStack(0);
+                stack.printStack(1);
+                System.out.println("Testing Pops");
+                stack.pop(0);
+                stack.printStack(0);
+                stack.printStack(1);
+                stack.pop(1);
+                stack.pop(1);
+                stack.printStack(0);
+                stack.printStack(1);
+                System.out.println("Testing Overflow");
+                stack.push(0, 2);
+                stack.push(1, 4);
+                stack.push(1, 5);
+                stack.push(1, 6);
+                stack.push(1, 7);
+            }
+            catch (Exception ex){
+                System.out.print(ex.getMessage());
+            }
+
+        }
+
+    }
+
+
+
+
+Written Problem 4
+
+a) Let c1 refer to compartment 1 and so on.
+Let the pop function of the stacks return
+
+s1.push(c4)
+s1.push(c3)
+output.enqueue(c1)
+s2.push(c8)
+output.enqueue(c2)
+output.enqueue(s1.pop)
+output.enqueue(s1.pop)
+s2.push(c7)
+s2.push(c6)
+s3.push(c9)
+output.enqueue(c5)
+output.enqueue(s2.pop)
+output.enqueue(s2.pop)
+output.enqueue(s2.pop)
+output.enqueue(s3.pop)
+
+
+
+b)
+This combination is impossible to solve with 3 stacks:
+
+1,9,8,7,6,5,4,3,2

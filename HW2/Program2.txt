@@ -1,0 +1,7 @@
+The big O cost depends on whether the second stack is empty or not.
+If the stack is not empty then we just pop the elements from it which has a
+ cost of O(1) but if it is then we have to call the method moveAllToRight()
+  which copies all the enqueued elements to the dequeuing stack with a
+  bigOh cost of O(N).
+  So, in the worst case, if you enqueue dequeue one after the other, then
+  the big Oh cost will be O(N)
