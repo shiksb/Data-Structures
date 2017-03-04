@@ -117,7 +117,7 @@ public class AwsmArrayList<T> implements AwsmList<T>, Iterable<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new AwsmArrayListIterator<T>(this);
+        return new AwsmArrayListIterator<>(this);
     }
 
     public class AwsmArrayListIterator<T> implements Iterator<T> {
