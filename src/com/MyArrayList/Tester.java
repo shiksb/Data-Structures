@@ -1,4 +1,4 @@
-package com.test;
+package com.MyArrayList;
 import java.util.Iterator;
 /**
  * Created by shikhar on 3/3/17.

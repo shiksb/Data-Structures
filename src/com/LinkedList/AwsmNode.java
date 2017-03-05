@@ -1,4 +1,4 @@
-package com.linkedlist;
+package com.LinkedList;
 
 /**
  * Created by shikhar on 3/3/17.

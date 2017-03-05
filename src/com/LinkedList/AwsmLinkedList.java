@@ -1,14 +1,11 @@
-package com.linkedlist;
-
-import com.company.*;
-import com.company.AwsmList;
+package com.LinkedList;
 
 import java.util.Iterator;
 
 /**
  * Created by shikhar on 3/3/17.
  */
-public class AwsmLinkedList<T> implements Iterable<T>, com.company.AwsmList<T> {
+public class AwsmLinkedList<T> implements Iterable<T>, AwsmList<T> {
 
     private AwsmNode<T> head;
     private int size;

@@ -1,6 +1,7 @@
-package com.company;
+package com.LinkedList;
 
 import java.util.Iterator;
+
 public interface AwsmList<T> {
 
     public void addFirst(T item);

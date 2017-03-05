@@ -1,4 +1,4 @@
-package com.linkedlist;
+package com.LinkedList;
 
 /**
  * Created by shikhar on 3/3/17.
@@ -9,6 +9,7 @@ public class tester {
         list.add(1, 0);
         list.add(2, 1);
         list.add(3, 1);
-        System.out.println(list);
+        System.out.println(list + "\n");
+        System.out.println(list.get(1));
     }
 }
