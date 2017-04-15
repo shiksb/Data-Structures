@@ -1,0 +1,398 @@
+/*
+Written.txt
+Author: Shikhar Bakhda
+UNI: ssb2189
+Date: 4/13/2017
+*/
+
+Question 1
+
+Part a:
+
+0 |    |
+1 |4371|
+2 |    |
+3 |1323| -> |6173|
+4 |4344|
+5 |    |
+6 |    |
+7 |    |
+8 |    |
+9 |4199| -> |9679| -> |1989|
+
+Part b:
+
+0 |9679|
+1 |4371|
+2 |1989|
+3 |1323|
+4 |6173|
+5 |4344|
+6 |    |
+7 |    |
+8 |    |
+9 |4199|
+
+Part c:
+
+0 |9679|
+1 |4371|
+2 |    |
+3 |1323|
+4 |6173|
+5 |4344|
+6 |    |
+7 |    |
+8 |1989|
+9 |4199|
+
+Part d:
+
+0 |    |
+1 |4371|
+2 |    |
+3 |1323|
+4 |6173|
+5 |9679|
+6 |    |
+7 |4344|
+8 |    |
+9 |4199|
+
+We can't insert 1989
+
+
+
+
+
+Question 2
+Part a:
+
+0  |    |
+1  |    |
+2  |    |
+3  |1323|
+4  |4344|
+5  |    |
+6  |    |
+7  |    |
+8  |    |
+9  |1989|
+10 |    |
+11 |4371|
+12 |    |
+13 |6173|
+14 |    |
+15 |    |
+16 |    |
+17 |    |
+18 |    |
+19 |4199| -> |9679|
+
+Part b:
+
+0  |9679|
+1  |    |
+2  |    |
+3  |1323|
+4  |4344|
+5  |    |
+6  |    |
+7  |    |
+8  |    |
+9  |1989|
+10 |    |
+11 |4371|
+12 |    |
+13 |6173|
+14 |    |
+15 |    |
+16 |    |
+17 |    |
+18 |    |
+19 |4199|
+
+Part c:
+
+0  |9679|
+1  |    |
+2  |    |
+3  |1323|
+4  |4344|
+5  |    |
+6  |    |
+7  |    |
+8  |    |
+9  |1989|
+10 |    |
+11 |4371|
+12 |    |
+13 |6173|
+14 |    |
+15 |    |
+16 |    |
+17 |    |
+18 |    |
+19 |4199|
+
+Part d:
+
+0  |    |
+1  |9679|
+2  |    |
+3  |1323|
+4  |4344|
+5  |    |
+6  |    |
+7  |    |
+8  |    |
+9  |1989|
+10 |    |
+11 |4371|
+12 |    |
+13 |6173|
+14 |    |
+15 |    |
+16 |    |
+17 |    |
+18 |    |
+19 |4199|
+
+
+Question 3
+
+
+Part a:
+
+
+10
+
+
+  10
+12
+
+
+  1
+12 10
+
+
+     1
+  12   10
+14
+
+
+     1
+  6    10
+14 12
+
+
+
+      1
+  6       5
+14 12   10
+
+
+
+      1
+  6       5
+14 12   10  8
+
+        1
+    6       5
+ 14  12   10  8
+15
+
+       1
+    3       5
+  6  12   10   8
+15 14
+
+
+           1
+      3         5
+  6       9  10   8
+15 14   12
+
+           1
+      3         5
+  6       7  10   8
+15 14   12  9
+
+
+               1
+      3                4
+  6       7          5   8
+15 14   12  9      10
+
+
+               1
+      3                4
+  6       7          5   8
+15 14   12  9      10 11
+
+
+               1
+      3                 4
+  6       7          5      8
+15 14   12  9      10 11  13
+
+
+               1
+      3                 2
+  6       7          5      4
+15 14   12  9      10 11  13  8
+
+
+
+Part b:
+
+Initial:
+
+               10
+     12                 1
+  14      6          5      8
+15  3   9   7      4  11  13  2
+
+Percolating downwards:
+ 
+
+               10
+     12                 1
+  14      6          5      2
+15  3   9   7      4  11  13  8
+
+
+               10
+     12                 1
+  14      6          4      2
+15  3   9   7      5  11  13  8
+
+
+               10
+     12                 1
+  14      6          4      2
+15  3   9   7      5  11  13  8
+
+
+               10
+     12                 1
+  3       6          4      2
+15 14   9   7      5  11  13  8
+
+
+               10
+     12                 1
+  3       6          4      2
+15 14   9   7      5  11  13  8
+
+
+               10
+      3                 1
+  12      6          4      2
+15 14   9   7      5  11  13  8
+
+
+               1
+      3                 2
+  12      6          4      8
+15 14   9   7      5  11  13  10
+
+
+Question 4:
+
+Initially we have:
+
+               1
+      3                 2
+  6       7          5      4
+15 14   12  9      10 11  13  8
+
+1st delete iteration
+
+
+               8
+      3                 2
+  6       7          5      4
+15 14   12  9      10 11  13
+
+
+               2
+      3                 8
+  6       7          5      4
+15 14   12  9      10 11  13
+
+
+               2
+      3                 4
+  6       7          5      8
+15 14   12  9      10 11  13
+
+
+2nd delete iteration
+
+
+              13
+      3                 4
+  6       7          5      8
+15 14   12  9      10 11
+
+
+              3
+      13                 4
+  6       7          5      8
+15 14   12  9      10 11
+
+
+               3
+      6                4
+  13      7         5      8
+15  14  12  9     10 11
+
+3rd delete iteration
+
+
+              11
+      6                4
+  13      7         5      8
+15  14  12  9     10
+
+
+
+              4
+      6               11
+  13      7         5      8
+15  14  12  9     10
+
+
+
+              4
+      6                5
+  13      7         11     8
+15  14  12  9     10
+
+
+
+              4
+      6                5
+  13      7         10     8
+15  14  12  9     11
+
+
+Question 5
+
+Part a
+In a heap the children are smaller than the parent node and so by recursion, 
+the max has to be in the last layer because by contradiction, if the max has
+children, then its children are bigger than it, so it cannot be the maximum.
+
+
+Part b
+
+The last leaf must be the final element of the array, n.
+The parent is the middle element, at n/2.
+Hence all the elements from the floor to n will be leafs. Thus the total number of leaves
+has to be ceiling(n/2).
+
+Part c
+Because we know that the max has to be a leaf, and because the max can be any of the leaves
+regardless of their parents, then we need to compare every leaf to find their maximum.
