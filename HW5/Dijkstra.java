@@ -134,6 +134,11 @@ public class Dijkstra {
    */
   public void doDijkstra(String s) {
 
+  	  	for(Vertex v : getVertices()) {
+	  		v.prev = null;
+	  		v.distance = Double.MAX_VALUE;
+		}
+
   		ArrayList<Vertex> toVisit = new ArrayList(getVertices());
   		Vertex origin = getVertex(s), smallestPath;
   		origin.distance = 0.0;
@@ -175,11 +180,6 @@ public class Dijkstra {
    * @return (List<Edge>) list of edges from s to t
    */
   public List<Edge> getDijkstraPath(String s, String t) {
-
-  	for(Vertex v : getVertices()) {
-  		v.prev = null;
-  		v.distance = Double.MAX_VALUE;
-  	}
 
     doDijkstra(s);
 

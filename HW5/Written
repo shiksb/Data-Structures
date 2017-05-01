@@ -1,0 +1,34 @@
+HW 5
+7.19
+Sort 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 using quicksort with median-of-three partitioning and a cutoff of 3.
+
+
+
+7.23
+Suppose we choose the element in the middle position of the array as the pivot. Does this make it unlikely that quicksort will require quadratic time?
+
+Yes. If the array is perfectly sorted, then taking the first element as pivot would result in quadratic time. If the array is prefectly reverse-sorted, then taking the last element as pivot would result in quadratic time. For arrays partially sorted, which is close to a random arranged array, the middle position is likely to be close to the optimal pivot (the actual median), giving an average runtime of O(n) = n*log(n). Quadratic time is thus unlikely.
+
+
+7.28a
+When implementing quicksort, if the array contains lots of duplicates, it may be better to perform a three-way partition (into elements less than, equal to, and greater than the pivot), to make smaller recursive calls. Assume three-way comparisons, as provided by the compareTo method.
+a. Give an algorithm that performs a three-way in-place partition of an N-element subarray using only N − 1 three-way comparisons. If there are d items equal to the pivot, you may use d additional Comparable swaps, above and beyond 324 Chapter 7 Sorting the two-way partitioning algorithm. (Hint: As i and j move toward each other, maintain five groups of elements as shown below):
+EQUAL SMALL UNKNOWN LARGE EQUAL
+		   i 	   j
+
+
+
+
+9.1
+Find a topological ordering for the graph in Figure 9.81.
+
+9.7a
+Give an example where Dijkstra’s algorithm gives the wrong answer in the presence of a negative edge but no negative-cost cycle.
+
+9.38
+You are given a set of N sticks, which are lying on top of each other in some configuration. Each stick is specified by its two endpoints; each endpoint is an ordered triple giving its x, y, and z coordinates; no stick is vertical. A stick may be picked up only if there is no stick on top of it.
+a. Explain how to write a routine that takes two sticks a and b and reports whether a is above, below, or unrelated to b. (This has nothing to do with graph theory.)
+b. Give an algorithm that determines whether it is possible to pick up all the sticks, and if so, provides a sequence of stick pickups that accomplishes this.
+
+
+
