@@ -1,0 +1,113 @@
+HW 5
+7.19
+Sort 3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5 using quicksort with median-of-three partitioning and a cutoff of 3.
+
+
+
+7.23
+Suppose we choose the element in the middle position of the array as the pivot. Does this make it unlikely that quicksort will require quadratic time?
+
+Yes. If the array is perfectly sorted, then taking the first element as pivot would result in quadratic time. If the array is prefectly reverse-sorted, then taking the last element as pivot would result in quadratic time. For arrays partially sorted, which is close to a random arranged array, the middle position is likely to be close to the optimal pivot (the actual median), giving an average runtime of O(n) = n*log(n). 
+
+Quadratic time is thus unlikely, but yet possible.
+
+
+7.28a
+When implementing quicksort, if the array contains lots of duplicates, it may be better to perform a three-way partition (into elements less than, equal to, and greater than the pivot), to make smaller recursive calls. Assume three-way comparisons, as provided by the compareTo method.
+a. Give an algorithm that performs a three-way in-place partition of an N-element subarray using only N − 1 three-way comparisons. If there are d items equal to the pivot, you may use d additional Comparable swaps, above and beyond 324 Chapter 7 Sorting the two-way partitioning algorithm. (Hint: As i and j move toward each other, maintain five groups of elements as shown below):
+EQUAL SMALL UNKNOWN LARGE EQUAL
+		   i 	   j
+
+void quicksort(a, l, r){
+
+	i = l
+	j = r - 1
+	el = i
+	er = j
+
+	while true do
+		while a[i] <= a[r] and i != r do
+			if a[i] == a[r] then
+				swap a[el] with a[i]
+				el = el + 1
+			i = i + 1
+		while a[j] >= a[r] and j != l do
+			if a[i] == a[r] then
+				swap a[er] with a[j]
+				er = er - 1
+			j = j - 1
+
+		if i < j then
+			swap a[i] with a[j]
+		else 
+			break
+
+	swap a[i] with a[r - 1]
+
+	k = l
+	for j = el to i - 1
+		swap a[j] with a[k]
+		k = k + 1
+
+	k = r
+	for j = er to i + 1
+		swap a[j] with a[k]
+		k = k - 1
+
+	quicksort(a, l, i - 1)
+	quicksort(a, i + 1, r)
+}
+
+
+9.1
+Find a topological ordering for the graph in Figure 9.81.
+
+
+
+9.7a
+Give an example where Dijkstra’s algorithm gives the wrong answer in the presence of a negative edge but no negative-cost cycle.
+
+
+
+9.38
+You are given a set of N sticks, which are lying on top of each other in some configuration. Each stick is specified by its two endpoints; each endpoint is an ordered triple giving its x, y, and z coordinates; no stick is vertical. A stick may be picked up only if there is no stick on top of it.
+a. Explain how to write a routine that takes two sticks a and b and reports whether a is above, below, or unrelated to b. (This has nothing to do with graph theory.)
+b. Give an algorithm that determines whether it is possible to pick up all the sticks, and if so, provides a sequence of stick pickups that accomplishes this.
+
+
+a. Let the coordinates of stick a be (e, f, g), (i, j, k) and b be (p, q, r), (s, t, u). Now, we first check if they intersect in the xy plane. For that plug in z = 0. Then derive equations for a and b in the xy plane:
+
+f = me + c
+j = mi + c
+and
+q = np + k
+t = ns + k
+
+Then, we solve this system of equations and find the solutions for sticks a and b. If a solution exists, then the stick with the higher z coordinate: max(g,k) vs max(r,u). The stick with the higher z coordinate is the stick on top. 
+
+If no solution exists, it means that the sticks are unrelated. 
+
+
+b. 
+Let every Stick have the same interface as a vertex in a graph on N vertices. 
+
+for every Stick a in sticks
+	for every Stick b in sticks
+		if above(a,b) == a then
+			a.adjacentEdges.add(new Edge(a,b))
+		else if above(a,b) == b then
+			b.adjacentEdges.add(new Edge(b,a))
+		else
+			nothing
+
+if cycleExists(sticks) then
+	return null //cannot pick all the sticks	
+else
+	return topologicalSort(sticks)
+
+// for the topologicalSort method we can use the method described in part a.
+// to check if cycle exists, we start from every vertex and try all the possible edges
+// recursively. If we reach the first vertex then return true, else return false. 
+
+
+

@@ -15,6 +15,7 @@ public class Vertex {
     this.name = name;
     this.x = x;
     this.y = y;
+    this.distance = Double.MAX_VALUE; // distance initialised to infinity
     // by default java sets uninitialized boolean to false and double to 0
     // hence known == false and dist == 0.0
     adjacentEdges = new LinkedList<Edge>();

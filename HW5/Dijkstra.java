@@ -93,6 +93,9 @@ public class Dijkstra {
 
   // STUDENT CODE STARTS HERE
 
+  //NOTE: an additional line has been added in Vertex.java on
+    // line 18, which initialises the distance of the Vertex to infinity
+
   /**
    * Computes the euclidean distance between two points as described by their
    * coordinates
@@ -107,9 +110,10 @@ public class Dijkstra {
    *          (double) y coordinate of point v
    * @return (double) distance between the two points
    */
+
   public double computeEuclideanDistance(double ux, double uy, double vx, double vy) {
-        // TODO
-        return Math.sqrt(((vy-uy)*(vy-uy)) + ((vx-ux)*(vx-ux))); // Replace this
+        // using the distance equation
+        return Math.sqrt(((vy-uy)*(vy-uy)) + ((vx-ux)*(vx-ux)));
   }
 
   /**
@@ -117,7 +121,7 @@ public class Dijkstra {
    * computeEuclideanCost method.
    */
   public void computeAllEuclideanDistances() {
-        // TODO
+        // calculating the distance for every edge 
   		for(Vertex v : getVertices()){
   			for(Edge e : v.adjacentEdges){
   				e.distance = computeEuclideanDistance(e.source.x, e.source.y, 
@@ -134,35 +138,53 @@ public class Dijkstra {
    */
   public void doDijkstra(String s) {
 
-  	  	for(Vertex v : getVertices()) {
-	  		v.prev = null;
-	  		v.distance = Double.MAX_VALUE;
-		}
+      // list of all vertices
+      ArrayList<Vertex> allVertices = new ArrayList(getVertices());
 
-  		ArrayList<Vertex> toVisit = new ArrayList(getVertices());
+      // setting all the vertices to default values
+	  	for(Vertex v : allVertices) {
+          v.prev = null;
+          v.distance = Double.MAX_VALUE;
+          v.known = false;
+		  }
+
+      // defining the origin Vertex
   		Vertex origin = getVertex(s), smallestPath;
   		origin.distance = 0.0;
   		origin.prev = origin;
 
-  		while(toVisit.size() > 0){
-  			smallestPath = findSmallest(toVisit);
-  			toVisit.remove(smallestPath);
-  			for(Edge e : smallestPath.adjacentEdges){
-  				if(toVisit.contains(e.target) && 
-  						e.target.distance > (e.distance + smallestPath.distance)){
-	  				e.target.prev = smallestPath;
-  					e.target.distance = e.distance + smallestPath.distance;
-  				}
-  			}
-  		}
+      // this loop breaks if the smallest path is found to be a
+        // a default vertex with distance = Double.MAX_VALUE
+      while(true){
+        smallestPath = findSmallest(allVertices); // find nearest vertex
+        if(smallestPath.distance == Double.MAX_VALUE){
+          break;
+        }
+        smallestPath.known = true; //mark vertex as known
+        // for every edge of the vertex, define the previous vertex and the distance
+        for(Edge e : smallestPath.adjacentEdges){
+          if(!e.target.known && 
+              e.target.distance > (e.distance + smallestPath.distance)){
+            e.target.prev = smallestPath;
+            e.target.distance = e.distance + smallestPath.distance;
+          }
+        }
+      }
+
   }
 
+  // this method finds the  vertex with the smallest distance
   private Vertex findSmallest(ArrayList<Vertex> vertices){
-  		Vertex smallest = vertices.get(0);
+      // just so that the first vertex will be read as the smallest by default. 
+  		Vertex smallest = new Vertex("", 0, 0);
+      smallest.distance = Double.MAX_VALUE;
+
   		for(Vertex v : vertices){
-  			if(v.distance < smallest.distance){
-  				smallest = v;
-  			}
+        if(!v.known){
+          if(v.distance < smallest.distance){
+            smallest = v;
+          }
+        }
   		}
   		return smallest;
   }
@@ -181,17 +203,19 @@ public class Dijkstra {
    */
   public List<Edge> getDijkstraPath(String s, String t) {
 
-    doDijkstra(s);
+    doDijkstra(s); // defining the shortest path for all vertices
 
     LinkedList<Edge> path = new LinkedList<>();
     double totalCost = 0.0;
+    // hop from vertex to vertex till you reac hthe source
     for(Vertex v = getVertex(t); v.distance != 0.0; v = v.prev){
     	totalCost += v.distance - v.prev.distance;
+      // insert the current vertex to the linked list's head with constant runtime
     	path.addFirst(new Edge(v.prev, v, v.distance - v.prev.distance));
     }
+
     System.out.println("Total Cost: " + totalCost);
-    // TODO
-    return path; // Replace this
+    return path; 
   }
 
   // STUDENT CODE ENDS HERE

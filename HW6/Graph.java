@@ -143,50 +143,182 @@ public class Graph {
   // STUDENT CODE STARTS HERE
 
   public void generateRandomVertices(int n) {
-    vertexNames = new HashMap<>(); // reset the vertex hashmap
-    Random rand = new Random();
+    this.vertexNames = new HashMap<>(); // reset the vertex hashmap
+    Random rand = new Random(); // random object
 
+    // iterating through the number of vertices
     for(int i = 0; i < n; i++){
+      // defining the x and y coordinates
       int randIntX = (int) (rand.nextFloat()*100);
       int randIntY = (int) (rand.nextFloat()*100);
+      // adding a vertex to a hashmap
       vertexNames.put(i, new Vertex(i, randIntX, randIntY));
+      // adding every possible undirected edge
       if(i != 0){
         for(int j = 0; j < i; j++){
-          addEdge(j, i, 0.0);
+          addUndirectedEdge(j, i, 0.0);
         }
       }
     }
-
-    computeAllEuclideanDistances(); // compute distances
+    computeAllEuclideanDistances(); // compute distances of edges
   }
 
   public List<Edge> nearestNeighborTsp() {
-    int name = 0;
-    ArrayList<Edge> path = new ArrayList<>();
-    ArrayList<Vertex> toVisit = new ArrayList<>(getVertices());
-    toVisit.remove(getVertex(0));
-    while(toVisit.size() > 0){
-      Edge smallestEdge = findNearest(toVisit, getVertex(name));
-      path.add(smallestEdge);
-      name = smallestEdge.target.name;
-      toVisit.remove(smallestEdge.source);
+
+    LinkedList<Edge> nnBestPath = new LinkedList<>();
+    double nnBestCost = Double.MAX_VALUE;
+
+
+    for(int startingName = 0; startingName < vertexNames.size(); startingName++){
+
+        // initializing the path linkedlist and the the list of 
+          // verticies to visit
+        LinkedList<Edge> path = new LinkedList<>();
+        ArrayList<Vertex> toVisit = new ArrayList<>(getVertices());
+
+        double cost = 0.0; // initializing the total cost to 0
+        // getting the source vertex 
+
+        // getting the sourceVertex and removing it from the 
+            // toVisit list 
+        Vertex sourceVertex = getVertex(startingName);
+        toVisit.remove(sourceVertex);
+
+        // defining nextVertex, the vertex to be visited next, as
+            // the source vertex
+        Vertex nextVertex = sourceVertex;
+        // break out of the loop when all vertices have been visited
+        while(toVisit.size() > 0) {
+          // getting the smallest adjacent edge of nextVertex
+          Edge smallestEdge = findSmallestEdge(toVisit, nextVertex);
+          toVisit.remove(smallestEdge.target); // removing the visited vertex
+          path.add(smallestEdge); // adding the edge to the path
+          cost += smallestEdge.distance; // updating the cost
+          //setting the next vertex to be visited to the edge target
+          nextVertex = smallestEdge.target; 
+        }
+
+        //the last edge to be added is the current vertex --> source vertex
+        Edge backToSource = new Edge(nextVertex, sourceVertex, 
+                computeEuclideanDistance(nextVertex, sourceVertex));
+        path.add(backToSource);
+        // adding the last edge to the cost
+        cost += backToSource.distance;
+
+        // if the cost was less than the best cost,
+          // update the best cost
+        if(cost < nnBestCost){
+          // reset the nnBestPath list
+          nnBestPath = new LinkedList<>();
+          // copying over the edges
+          for(Edge e : path){
+            nnBestPath.addLast(e);
+          } 
+          // updating the best cost
+          nnBestCost = cost;
+        }
     }
-    System.out.println(path);
-    return path; // replace this line
+    // printing the path and cost
+    System.out.println("Path: " + nnBestPath);
+    System.out.println("Cost: " + nnBestCost);
+    return nnBestPath; 
   }
 
-  private Edge findNearest(ArrayList<Vertex> vertices, Vertex u){
-      Edge nearest = new Edge(u, u, Double.MAX_VALUE);
+  // this method returns the smallest edge in toVisit from vertex u
+  private Edge findSmallestEdge(ArrayList<Vertex> toVisit, Vertex u){
+      Edge nearest = new Edge(null, null, Double.MAX_VALUE);
+      // iterating through every edge in u's adjacentEdges
       for(Edge e : u.adjacentEdges){
-        if(vertices.contains(e.target) && e.distance < nearest.distance){
+        if(toVisit.contains(e.target) && e.distance < nearest.distance){
           nearest = e;
         }
       }
+      // returning nearest edge
       return nearest;
   }
 
+  // the instance variables for the brute force algorithm
+  private double bfBestCost;
+  private int[] bfBestPath;
+
   public List<Edge> bruteForceTsp() {
-    return null; // replace this line
+    // getting the number of vertices
+    int n = vertexNames.size();
+
+    // defining the path as an arraylist of edges
+    ArrayList<Edge> path = new ArrayList<>();
+
+    // initializing the best path and best cost
+    bfBestCost = Double.MAX_VALUE;
+    bfBestPath = new int[n + 1];
+
+    // creating an initial permutation
+    int[] permutation = new int[n];
+    for(int i = 0; i < n; i++)
+      permutation[i] = i;
+
+    // running the recursive combination method
+    combination(permutation, 0, n - 1);
+
+    // creating the shortest path
+    for(int i = 0; i < bfBestPath.length - 1; i++) {
+      Vertex u = getVertex(bfBestPath[i]);
+      Vertex v = getVertex(bfBestPath[i + 1]);
+      path.add(new Edge(u, v, computeEuclideanDistance(u, v)));
+    }
+
+    // printing the path and cost
+    System.out.println("Path: " + path);
+    System.out.println("Cost: " + this.bfBestCost);
+
+    return path; 
+  }
+
+  // this method recursively creates different combinations 
+      // and saves the best one
+  private void combination(int[] combo, int begin, int end) {
+    // end conidition
+    if (begin == end) {
+      double totalCost = 0.0; // setting the total cost to 0
+      // iterating through the corresponding vertices to add cost
+      for(int name = 0; name < combo.length - 1; name++){
+        totalCost += computeEuclideanDistance(getVertex(combo[name]), 
+                                              getVertex(combo[name + 1]));
+      }
+      // the last vertex is the starting vertex
+      totalCost += computeEuclideanDistance(getVertex(combo[combo.length - 1]), 
+                                            getVertex(combo[0]));
+
+      // if the calculated cost is better than the best cost
+          // then update the best cost and the best path
+      if(totalCost < bfBestCost){
+        // copying over the current path
+        for(int i = 0; i < combo.length; i++){
+          bfBestPath[i] = combo[i];
+        }
+        // adding the starting vertex 
+        bfBestPath[combo.length] = combo[0];
+        bfBestCost = totalCost; // updating best cost
+      }
+    } else {
+        // iterate through the vertices
+        for(int i = begin; i < end + 1; i++) {
+            // exchanging the starting vertex and current vertex
+            combo = exchange(combo, begin, i);
+            // recursive call, sending the an incremented starting vertex
+            combination(combo, begin + 1, end);
+            // exchanging the starting vertex and current vertex
+            combo = exchange(combo, begin, i);
+        }
+    }
+  }
+  
+  // the exchange method, which swaps two references of the num array
+  private int[] exchange(int[] num, int i, int j){
+    int temp = num[i];
+    num[i] = num[j];
+    num[j] = temp;
+    return num;
   }
 
   // STUDENT CODE ENDS HERE
