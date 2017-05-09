@@ -1,4 +1,4 @@
-package com.ArrayQueue;
+// package com.ArrayQueue;
 
 /**
  * Created by shikhar on 3/5/17.
@@ -23,10 +23,7 @@ public class ArrayQueue<T> implements QueueInterface<T> {
     public void enqueue(T item) {
         if(size == length) { throw new ArrayIndexOutOfBoundsException(); }
         queue[back] = item;
-        back++;
-        if(back >= length) {
-            back -= length;
-        }
+        back = (back + 1) % length;
         size++;
     }
 
@@ -34,11 +31,8 @@ public class ArrayQueue<T> implements QueueInterface<T> {
     public T dequeue() {
         if(size == 0) { throw new ArrayIndexOutOfBoundsException(); }
         T frontitem = queue[front];
-        queue[front] = null;
-        front++;
-        if(front >= length) {
-            front -= length;
-        }
+        // queue[front] = null;
+        front = (front + 1) % length;
         size--;
         return frontitem;
     }

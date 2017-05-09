@@ -20,7 +20,7 @@ public class TowerHanoi {
         public static void main(String[] args) {
             int disk,i;
 //            disk=Integer.parseInt(args[0]);
-            disk = 3;
+            disk = 5;
             System.out.println("Towers of Hanoi for " + disk + " disks:");
             tower('A','C','B',disk);
             System.out.println("Number of moves = " + count);
